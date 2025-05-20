@@ -1,0 +1,30 @@
+
+<!doctype html>
+<html>
+<head>
+  <title>مستضيف ملفات بايثون</title>
+</head>
+<body>
+  <h1>رفع ملف بايثون</h1>
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% for category, msg in messages %}
+      <p style="color: {% if category == 'danger' %}red{% elif category == 'success' %}green{% else %}blue{% endif %};">{{ msg }}</p>
+    {% endfor %}
+  {% endwith %}
+  <form method="post" action="/upload" enctype="multipart/form-data">
+    <input type="file" name="file">
+    <button type="submit">رفع</button>
+  </form>
+  <h2>الملفات المرفوعة:</h2>
+  <ul>
+    {% for name, data in files.items() %}
+      <li>{{ name }} - {{ data.status }}
+        [<a href="/run/{{ name }}">تشغيل</a>]
+        [<a href="/stop/{{ name }}">توقيف</a>]
+        [<a href="/delete/{{ name }}">حذف</a>]
+        [<a href="/download/{{ name }}">تنزيل</a>]
+      </li>
+    {% endfor %}
+  </ul>
+</body>
+</html>
